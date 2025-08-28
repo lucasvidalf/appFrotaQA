@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Login — appFrota</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#e8fffb; --brand-dark:#0b4c59; --brand-mid:#3db7ac; --white:#fff; --text:#0b1f1e;
+    --shadow:0 8px 24px rgba(0,0,0,.08);
+    --br-lg:16px; --br-md:12px; --br-sm:10px;
+  }
+  *{ box-sizing:border-box }
+  html,body{ height:100% }
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    display:flex; align-items:center; justify-content:center;
+    padding: clamp(8px, 2vw, 16px);
+  }
+  .app{ width:min(900px, 100%); margin:auto; }
+
+  /* Cabeçalho */
+  .card-header{
+    background:var(--brand-dark); color:#fff;
+    padding: clamp(18px,5vw,28px) clamp(14px,4vw,20px);
+    border-radius: var(--br-lg);
+    box-shadow: var(--shadow);
+    text-align:center;
+  }
+  .title{ margin:0; font-weight:900; letter-spacing:.4px; font-size:clamp(22px,5vw,34px) }
+  .subtitle{ margin:.25rem 0 0; opacity:.9; font-weight:600; font-size:clamp(12px,2.2vw,14px) }
+
+  /* Cartão do formulário */
+  .card{
+    margin-top:12px; background:var(--white);
+    border-radius: var(--br-lg); box-shadow: var(--shadow); overflow:hidden;
+  }
+  .card::before{ content:""; display:block; height:18px; background:var(--brand-mid) }
+
+  .form-wrap{ padding:18px 14px 16px; }
+  .field{ margin-bottom:12px }
+  .label{ font-weight:800; letter-spacing:.3px; margin-bottom:6px; display:block }
+  .control{
+    display:block; width:100%; min-height:44px; font-size:16px;
+    padding:10px 12px; border:1px solid #cfd8dc; border-radius:var(--br-sm);
+    background:#f9fafa; outline:none;
+  }
+  .control:focus{ border-color:var(--brand-mid); box-shadow:0 0 0 3px rgba(61,183,172,.25); background:#fff }
+
+  .input-row{
+    display:grid; grid-template-columns: 1fr auto; align-items:stretch; gap:8px;
+  }
+  .showpass{
+    border:1px solid #cfd8dc; background:#eef6f5; color:#063a36;
+    border-radius:var(--br-sm); padding:0 12px; font-weight:800; cursor:pointer;
+  }
+
+  .meta-row{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:10px; margin-top:6px;
+  }
+  .remember{ display:flex; align-items:center; gap:8px; font-weight:700 }
+
+  .actions{ display:flex; gap:10px; justify-content:flex-end; margin-top:16px }
+  .btn{
+    border:0; border-radius:12px; padding:12px 14px; font-weight:800; cursor:pointer;
+    background:var(--brand-dark); color:#fff; box-shadow:0 6px 14px rgba(1,61,53,.18);
+    transition:filter .15s ease;
+  }
+  .btn:hover{ filter:brightness(1.05) }
+  .btn.ghost{ background:#eef6f5; color:#063a36 }
+  .btn[disabled]{ opacity:.7; cursor:not-allowed }
+
+  /* Mensagem inline */
+  .msg{ margin-top:10px; font-weight:800 }
+  .msg.err{ color:#9a1a0a }
+  .msg.ok{ color:#0b4c59 }
+
+  /* Overlay de carregamento */
+  .busy {
+    position: fixed; inset: 0; display: none;
+    align-items: center; justify-content: center;
+    background: rgba(255,255,255,.65); backdrop-filter: blur(1px) saturate(1.1);
+    z-index: 9999;
+  }
+  .busy.show { display: flex; }
+  .busy .box{
+    display:flex; align-items:center; gap:12px;
+    background:#fff; border-radius:12px; padding:12px 16px;
+    box-shadow: var(--shadow); font-weight:800; letter-spacing:.3px;
+    color:#063a36;
+  }
+  .busy .spinner{
+    width:18px; height:18px; border-radius:50%;
+    border:3px solid #b9e6e1; border-top-color:#3db7ac;
+    animation: spin .9s linear infinite;
+  }
+  @keyframes spin { to{ transform: rotate(360deg) } }
+
+  .foot{
+    text-align:center; opacity:.7; font-weight:700; font-size:12px; padding:12px 0 2px;
+  }
+</style>
+</head>
+<body>
+  <main class="app">
+    <header class="card-header">
+      <h1 class="title">ACESSO AO APP FROTA</h1>
+      <p class="subtitle">Faça login para continuar</p>
+    </header>
+
+    <section class="card" aria-label="Login">
+      <div class="form-wrap">
+        <div class="field">
+          <label class="label" for="usuario">Usuário</label>
+          <input class="control" id="usuario" type="text" placeholder="Digite seu usuário" autocomplete="username" />
+        </div>
+
+        <div class="field">
+          <label class="label" for="senha">Senha</label>
+          <div class="input-row">
+            <input class="control" id="senha" type="password" placeholder="••••••••" autocomplete="current-password" />
+            <button class="showpass" id="btnShowPass" type="button" aria-pressed="false">Mostrar</button>
+          </div>
+          <div class="meta-row">
+            <label class="remember">
+              <input id="remember" type="checkbox" />
+              <span>Lembrar-me</span>
+            </label>
+            <a class="btn ghost" href="#" id="btnEsqueci">Esqueci minha senha</a>
+          </div>
+        </div>
+
+        <div id="msg" class="msg" role="alert" aria-live="polite"></div>
+
+        <div class="actions">
+          <a class="btn ghost" href="index.html">Voltar</a>
+          <button class="btn" id="btnEntrar">Entrar</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="foot">AppFrota - DEEP LOGÍSTICA</div>
+  </main>
+
+  <!-- Overlay de carregamento -->
+  <div id="busy" class="busy" aria-live="polite" aria-busy="false">
+    <div class="box"><span class="spinner" aria-hidden="true"></span><span id="busyMsg">Autenticando…</span></div>
+  </div>
+
+  <script>
+    // ====== CONFIG ======
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbztNGKNvXYYTuGD7YekVuqh9-Rnd38UlPufFB1Y8qTCYsgfxowh0YOb7cLOmGPgjWikzA/exec';
+    const REDIRECT_OK = './telaPrincipal.html'; // para onde vai após login
+    const SESSION_KEY = 'usuarioLogado'; // sessão persistente
+
+    // ====== Session helpers ======
+    function getSessao() {
+      try {
+        const raw = localStorage.getItem(SESSION_KEY);
+        if (!raw) return null;
+        const s = JSON.parse(raw);
+        if (s && s.issuedAt && s.ttlHours) {
+          const expiraEm = s.issuedAt + s.ttlHours * 3600 * 1000;
+          if (Date.now() > expiraEm) {
+            localStorage.removeItem(SESSION_KEY);
+            return null;
+          }
+        }
+        return s;
+      } catch { return null; }
+    }
+    function setSessao(sessao) { localStorage.setItem(SESSION_KEY, JSON.stringify(sessao || {})); }
+    function clearSessao()      { localStorage.removeItem(SESSION_KEY); }
+
+    // ====== UI helpers ======
+    const $ = (sel) => document.querySelector(sel);
+    function setBusy(on, msg='Processando…'){
+      $('#busyMsg').textContent = msg || 'Processando…';
+      const el = $('#busy');
+      el.classList.toggle('show', !!on);
+      el.setAttribute('aria-busy', on ? 'true' : 'false');
+    }
+    function setBtnLoading(btn, on, textWhile='Carregando…'){
+      if (!btn) return;
+      if (on){ btn.dataset._txt = btn.textContent; btn.textContent = textWhile; btn.disabled = true; }
+      else   { if (btn.dataset._txt) btn.textContent = btn.dataset._txt; btn.disabled = false; }
+    }
+    function showMsg(text, type='err'){
+      const m = $('#msg');
+      m.textContent = text || '';
+      m.className = 'msg ' + (type === 'ok' ? 'ok' : 'err');
+    }
+
+    // ====== Auto redirect se já estiver logado ======
+    (function autoSkipIfLogged(){
+      const s = getSessao();
+      if (s?.sucesso) {
+        location.replace(REDIRECT_OK);
+      }
+    })();
+
+    // ====== Lembrar usuário (UX) ======
+    (function bootRemember(){
+      const saved = localStorage.getItem('appfrota_login_user');
+      if (saved) $('#usuario').value = saved;
+    })();
+
+    // ====== Mostrar/ocultar senha ======
+    $('#btnShowPass').addEventListener('click', ()=>{
+      const i = $('#senha');
+      const is = i.type === 'password';
+      i.type = is ? 'text' : 'password';
+      const btn = $('#btnShowPass');
+      btn.textContent = is ? 'Ocultar' : 'Mostrar';
+      btn.setAttribute('aria-pressed', is ? 'true' : 'false');
+    });
+
+    // ====== Esqueci minha senha (placeholder) ======
+    $('#btnEsqueci').addEventListener('click', (e)=>{
+      e.preventDefault();
+      showMsg('Fale com o administrador para redefinir a senha.', 'err');
+    });
+
+    // ====== Chamada ao Apps Script (envia {usuario,senha}) ======
+    async function apiLogin(usuario, senha){
+      const body = 'dados=' + encodeURIComponent(JSON.stringify({
+        action: 'login',
+        dados: { usuario, senha }
+      }));
+
+      const resp = await fetch(SCRIPT_URL, {
+        method:'POST',
+        headers:{ 'Content-Type': 'application/x-www-form-urlencoded' },
+        body
+      });
+
+      let json;
+      try { json = await resp.json(); } catch(e){ json = null; }
+      if (!json || json.sucesso !== true) {
+        throw new Error((json && json.mensagem) || 'Falha ao autenticar.');
+      }
+
+      // normaliza sessão salva no storage
+      const now = Date.now();
+      const ttl = Number(json.ttlHours) > 0 ? Number(json.ttlHours) : 12; // 12h padrão
+      return {
+        sucesso: true,
+        token: json.token || 'token-local',
+        login: json.login || usuario,
+        acesso: json.acesso || 'usuario',
+        local: json.local || '',
+        issuedAt: json.issuedAt || now,
+        ttlHours: ttl
+      };
+    }
+
+    // ====== Submit ======
+    $('#btnEntrar').addEventListener('click', async (ev)=>{
+      const usuario = $('#usuario').value.trim().toLowerCase(); // aceita sem @
+      const senha   = $('#senha').value;
+
+      if (!usuario || !senha){
+        showMsg('Preencha usuário e senha.');
+        return;
+      }
+
+      const btn = ev.currentTarget;
+      try{
+        showMsg('');
+        setBtnLoading(btn, true, 'Entrando…'); setBusy(true, 'Autenticando…');
+
+        const session = await apiLogin(usuario, senha);
+
+        // Lembrar apenas o usuário (UX)
+        if ($('#remember').checked){
+          localStorage.setItem('appfrota_login_user', usuario);
+        } else {
+          localStorage.removeItem('appfrota_login_user');
+        }
+
+        // Salvar sessão completa p/ controle de acesso nas demais páginas
+        setSessao(session);
+
+        showMsg('Login efetuado!', 'ok');
+        location.assign(REDIRECT_OK);
+
+      }catch(err){
+        console.error(err);
+        showMsg('❌ ' + (err && err.message ? err.message : 'Não foi possível entrar.'));
+      }finally{
+        setBusy(false); setBtnLoading(btn, false);
+      }
+    });
+
+    // Enter para enviar
+    $('#senha').addEventListener('keydown', (e)=>{
+      if (e.key === 'Enter') $('#btnEntrar').click();
+    });
+  </script>
+</body>
+</html>
