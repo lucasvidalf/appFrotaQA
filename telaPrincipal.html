@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<style>.preauth body{display:none}</style>
-<script>document.documentElement.classList.add('preauth');</script>
-<script src="./auth.js"></script>
-<script>Auth.protect();</script>
-<button type="button" onclick="Auth.logout()">Sair</button>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+	
+<style>.preauth body{display:none}</style>
+<script>document.documentElement.classList.add('preauth');</script>
+	
+<script src="./auth.js"></script>
+	
+<script>
+	Auth.protect();
+</script>
+
 <title>App Frota DEEP</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -117,6 +122,8 @@
 </style>
 </head>
 <body>
+  <button type="button" onclick="Auth.logout()">Sair</button><br><br>
+	
   <div class="phone">
     <div class="screen">
       <header class="topbar">
