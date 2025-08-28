@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>App Frota DEEP</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#e8fff9;
+    --brand-dark:#0b4c59;
+    --brand-mid:#0b4c59;
+    --tile:#a3e0db;
+    --text:#0b1f1e;
+    --shadow:0 8px 24px rgba(0,0,0,.08);
+  }
+
+  /* base */
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    color:var(--text);
+    background:var(--bg);
+    -webkit-text-size-adjust:100%;    
+    display:flex; align-items:flex-start; justify-content:center;
+    padding: clamp(8px, 2vw, 16px);
+    min-height: 100vh;
+  }
+
+  /* “telefone” fluido */
+  .phone{
+    width: min(680px, 100%);
+    background:#fff;
+    border-radius: 28px;
+    overflow:hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,.18);
+  }
+
+  .screen{
+    display:flex; flex-direction:column;
+    min-height: 100%;
+  }
+
+  /* topo */
+  .topbar{
+    background: var(--brand-dark);
+    color:#fff;
+    padding: clamp(18px, 5vw, 36px) clamp(14px, 4vw, 24px);
+    text-align:center;
+  }
+  .name{
+    margin:0;
+    font-weight:800;
+    letter-spacing:.3px;
+    font-size: clamp(22px, 4.5vw, 34px);
+  }
+
+  /* conteúdo */
+  .content{
+    padding: clamp(12px, 3vw, 20px);
+    background:
+      linear-gradient(180deg, #3db7ac 0%, #3db7ac 28%, transparent 28%);
+  }
+
+  .grid{
+    margin-top: clamp(8px, 2vw, 16px);
+    display:grid;
+    grid-template-columns: 1fr; /* 1 por linha (como você fez) */
+    gap: clamp(10px, 2.5vw, 16px);
+  }
+
+  a.tile{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    background: var(--tile);
+    border-radius: 14px;
+    padding: clamp(18px, 4.5vw, 28px) clamp(10px, 3vw, 16px);
+    text-decoration:none; color:inherit;
+    box-shadow: var(--shadow);
+    transition: transform .08s ease, box-shadow .2s ease, background .2s ease;
+  }
+  a.tile:active{ transform: scale(.985); }
+  a.tile:hover{ box-shadow: 0 12px 28px rgba(0,0,0,.12); background:#cfeeed; }
+
+  .icon{
+    width: clamp(64px, 16vw, 88px);
+    height: clamp(64px, 16vw, 88px);
+    border-radius: 50%;
+    background:#0f6f7e;
+    display:grid; place-items:center;
+    margin-bottom: clamp(6px, 1.6vw, 10px);
+    transition: transform .15s ease;
+  }
+  .icon svg{ width: clamp(28px, 7vw, 42px); height: clamp(28px, 7vw, 42px); fill:#fff; }
+
+  /* efeito hover sem "quebrar" o clique */
+  a.tile:hover .icon{ transform: scale(1.08); }
+  a.tile *{ pointer-events: none; } /* garante clique no <a> */
+
+  .label{
+    font-weight:800;
+    letter-spacing:.3px;
+    font-size: clamp(14px, 3.2vw, 18px);
+  }
+
+  .tail{
+    height: clamp(60px, 14vw, 110px);
+    background: var(--brand-mid);
+    border-radius: 0 0 20px 20px;   
+  }
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="screen">
+      <header class="topbar">
+        <h1 class="name">APP FROTA DEEP</h1>
+      </header>
+
+      <main class="content">
+        <section class="grid">
+          <a class="tile" href="./menuChecklist.html">
+            <div class="icon">
+              <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4l-1.41-1.42L12 12.17l-2.59-2.58L9 11zM3 6h5v2H3V6zm0 5h5v2H3v-2zm0 5h5v2H3v-2z"/></svg>
+            </div>
+            <div class="label">CHECK-LIST</div>
+          </a>
+		
+	 <a class="tile" href="./menuDisponibilidade.html">
+            <div class="icon">
+             	<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 500 500" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+			
+			<path d="M507.281,297.771c2.893-1.451,4.719-4.403,4.719-7.637V256c0-4.719-3.823-8.533-8.533-8.533H460.8v-153.6
+			c0-4.719-3.823-8.533-8.533-8.533H307.2c-3.507,0-6.656,2.15-7.945,5.419l-71.142,181.094l-40.38-13.457V102.4
+			c0-4.719-3.823-8.533-8.533-8.533h-17.067c-4.71,0-8.533,3.814-8.533,8.533V256H128c-4.71,0-8.533,3.814-8.533,8.533v110.933
+			H8.533C3.823,375.467,0,379.281,0,384s3.823,8.533,8.533,8.533h165.12c7.049,19.857,25.967,34.133,48.213,34.133
+			c18.901,0,35.405-10.325,44.271-25.6h144.674c3.814,14.686,17.067,25.6,32.922,25.6c15.855,0,29.107-10.914,32.922-25.6h26.812
+			c4.71,0,8.533-3.814,8.533-8.533V332.8c0-4.719-3.823-8.533-8.533-8.533h-8.533V303.94L507.281,297.771z M187.733,276.369
+			l34.133,11.375l-15.258,38.844c-7.083,2.219-13.474,5.973-18.876,10.82V276.369z M221.867,409.6
+			c-18.825,0-34.133-15.309-34.133-34.133s15.309-34.133,34.133-34.133S256,356.642,256,375.467S240.691,409.6,221.867,409.6z
+			 M418.133,187.733H384c-4.71,0-8.533,3.814-8.533,8.533v42.667h-34.133c-4.71,0-8.533,3.814-8.533,8.533v32.119L318.993,307.2
+			h-33.604l21.274-56.73c1.63-4.352-0.512-9.199-4.821-10.923l-2.057-0.819l11.238-22.468l9.429,4.719
+			c4.224,2.091,9.344,0.393,11.452-3.814c2.108-4.215,0.401-9.344-3.814-11.452l-17.067-8.533
+			c-4.224-2.099-9.344-0.401-11.452,3.814l-15.684,31.377l-18.944-7.578L313.02,102.4h130.714v170.667h-17.067v-76.8
+			C426.667,191.548,422.844,187.733,418.133,187.733z M443.733,409.6c-9.412,0-17.067-7.654-17.067-17.067
+			c0-9.412,7.654-17.067,17.067-17.067c9.412,0,17.067,7.654,17.067,17.067C460.8,401.946,453.146,409.6,443.733,409.6z"/>
+			
+			</svg>
+            </div>
+            <div class="label">DISPONIBILIDADE</div>
+          </a>
+
+          <a class="tile" href="./menuOS.html">
+            <div class="icon">
+              <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 0a1 1 0 0 1 1 1h-2a1 1 0 0 1 1-1zm0 14H8v-2h4v2zm4-4H8v-2h8v2z"/></svg>
+            </div>
+            <div class="label">ORDEM DE SERVIÇO</div>
+          </a>
+
+          <a class="tile" href="./menuAbastecimentos.html">
+            <div class="icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="white">
+  	      <path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H6Zm0 2h7v4H6V4Zm12 1v10h1a1 1 0 0 0 1-1V8h1V6h-1V5h-2Z"/>
+	      </svg>
+            </div>
+            <div class="label">ABASTECIMENTOS</div>
+          </a>
+
+          <a class="tile" href="./menuIndicadores.html">
+            <div class="icon">
+              <!--<svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.73zM12 4.15L18.53 8 12 11.85 5.47 8 12 4.15zM5 10.72l6 3.43v6.7l-6-3.42v-6.71zm8 10.13v-6.7l6-3.43v6.71l-6 3.42z"/></svg>-->
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <!-- linha de base -->
+                <path d="M2 20.5h20" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+                <!-- barras (com cantos levemente arredondados) -->
+                <rect x="3"  y="12" width="4" height="8"  rx="1" ry="1" fill="white"/>
+                <rect x="10" y="8"  width="4" height="12" rx="1" ry="1" fill="white"/>
+                <rect x="17" y="4"  width="4" height="16" rx="1" ry="1" fill="white"/>
+              </svg>
+            </div>
+            <div class="label">INDICADORES</div>
+          </a>
+          
+        </section>
+        
+      </main>
+    </div>
+  </div>
+</body>
+</html>
